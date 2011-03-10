@@ -34,12 +34,12 @@ class Connection
   # queue - String queue name.
   # func  - String name of the function to run.
   # args  - Optional Array of arguments to pass.
-  #
+  # id - Optional Id to be attached to the job. Will help in job identification!
+  # 
   # Returns nothing.
-  enqueue: (queue, func, args) ->
+  enqueue: (queue, func, args, id) ->
     @redis.sadd  @key('queues'), queue
-    @redis.rpush @key('queue', queue),
-      JSON.stringify class: func, args: args || []
+    @redis.rpush @key('queue', queue),  JSON.stringify class: func, args: args || [], id: id
 
   # Public: Creates a single Worker from this Connection.
   #
